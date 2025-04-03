@@ -1,0 +1,25 @@
+# Byte-compiled / cached
+api/__pycache__/
+api/**/*.py[cod]
+
+# Virtualenv
+.env/
+venv/
+env/
+
+# Django stuff
+api/db.sqlite3
+api/**/*.sqlite3
+api/media/
+api/staticfiles/
+api/*.log
+
+# VSCode / PyCharm
+.vscode/
+.idea/
+
+# Git
+*.swp
+.DS_Store
+api/env/*
+*/__pycache__/*
