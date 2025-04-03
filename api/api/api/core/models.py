@@ -1,19 +1,12 @@
-# This is an auto-generated Django model module.
-# You'll have to do the following manually to clean this up:
-#   * Rearrange models' order
-#   * Make sure each model has one field with primary_key=True
-#   * Make sure each ForeignKey and OneToOneField has `on_delete` set to the desired behavior
-#   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
-# Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
-
+from django.contrib.auth.models import AbstractUser
 
 class Dailyquest(models.Model):
     id = models.IntegerField(primary_key=True)
     quest = models.ForeignKey('Quest', models.DO_NOTHING, db_column='quest', blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'DailyQuest'
 
 
@@ -24,7 +17,7 @@ class Friend(models.Model):
     created_at = models.DateField(blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'Friend'
         unique_together = (('user', 'friend'),)
 
@@ -36,7 +29,7 @@ class League(models.Model):
     minscore = models.IntegerField(db_column='minScore', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'League'
 
 
@@ -47,7 +40,7 @@ class Quest(models.Model):
     completed = models.IntegerField(blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'Quest'
 
 
@@ -60,7 +53,7 @@ class Station(models.Model):
     name = models.CharField(max_length=255, blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'Station'
 
 
@@ -74,24 +67,32 @@ class Travel(models.Model):
     datetime_salida = models.DateTimeField(blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'Travel'
 
 
-class User(models.Model):
-    id = models.IntegerField(primary_key=True)
-    name = models.CharField(max_length=255, blank=True, null=True)
-    email = models.CharField(max_length=255, blank=True, null=True)
-    hashed_password = models.CharField(max_length=255, blank=True, null=True)
-    profilepic_path = models.CharField(db_column='profilePic_path', max_length=255, blank=True, null=True)  # Field name made lowercase.
+
+
+class User(AbstractUser):
+    profilepic_path = models.CharField(db_column='profilePic_path', max_length=255, blank=True, null=True)
     quests = models.IntegerField(blank=True, null=True)
     travels = models.IntegerField(blank=True, null=True)
     score = models.IntegerField(blank=True, null=True)
     league = models.ForeignKey(League, models.DO_NOTHING, db_column='league', blank=True, null=True)
-    created_at = models.DateField(blank=True, null=True)
 
+
+    groups = models.ManyToManyField(
+        'auth.Group',
+        related_name='custom_user_set',
+        blank=True
+    )
+    user_permissions = models.ManyToManyField(
+        'auth.Permission',
+        related_name='custom_user_permissions_set',
+        blank=True
+    )
     class Meta:
-        managed = False
+        managed = True
         db_table = 'User'
 
 
@@ -101,7 +102,7 @@ class UserQuest(models.Model):
     user = models.ForeignKey(User, models.DO_NOTHING, db_column='user', blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'User_Quest'
 
 
@@ -111,5 +112,5 @@ class UserTravel(models.Model):
     user = models.ForeignKey(User, models.DO_NOTHING, db_column='user', blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'User_Travel'
